@@ -10,12 +10,14 @@ import Analytics from "./features/analytics/pages/Analytics";
 
 import Settings from "./features/settings/pages/Settings";
 import NotFound from "./pages/NotFound";
+import Landing from "./features/home/pages/Landing";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route

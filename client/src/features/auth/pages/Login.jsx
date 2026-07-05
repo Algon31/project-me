@@ -42,7 +42,7 @@ function Login() {
 
         } catch (err) {
 
-            alert(err.response?.data?.message || "Login Failed");
+            showError(err.response?.data?.message || "Login Failed");
 
         } finally {
 

@@ -8,6 +8,8 @@ flex
 items-center
 gap-3
 rounded-xl
+bg-[var(--pcolor)]
+text-[var(--pcolor)]
 px-4
 py-3
 font-medium
@@ -15,7 +17,7 @@ transition-colors
 
 ${
   isActive
-    ? "bg-[var(--pcolor)] text-[var(--scolor)]"
+    ? "bg-[var(--scolor)] text-[var(--pcolor)]"
     : "text-[var(--text)] hover:bg-[var(--scolor)]"
 }
 `;
@@ -23,28 +25,25 @@ ${
   return (
     <aside
       className="
-        w-[260px]
-        min-h-[calc(100vh-64px)]
-        bg-white
+        w-60
+        h-full
+        bg-[var(--pcolor)]
         border-r
         border-[var(--border)]
         px-6
         py-8
+        text-[var(--scolor)]
         "
     >
-      <h2 className="text-3xl font-bold text-[var(--pcolor)] mb-10">
-        Project : ME
-      </h2>
 
       <nav className="space-y-2">
-        <NavLink to="/today" className={linkClass}>
-          <House size={20} />
-          Today
-        </NavLink>
-
         <NavLink to="/dashboard" className={linkClass}>
           <LayoutDashboard size={20} />
           Dashboard
+        </NavLink>
+        <NavLink to="/today" className={linkClass}>
+          <House size={20} />
+          Today
         </NavLink>
 
         <NavLink to="/analytics" className={linkClass}>
