@@ -5,6 +5,9 @@ const authRoutes = require("./routes/authRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
 const metricRoutes = require("./routes/metricRoutes");
 const todayRoutes = require("./routes/todayRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+
 
 const app = express();
 
@@ -26,6 +29,8 @@ app.get("/api/profile", authMiddleware, (req, res) => {
 });
 app.use("/api/metrics", metricRoutes);
 app.use("/api/today", todayRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 
 module.exports = app;

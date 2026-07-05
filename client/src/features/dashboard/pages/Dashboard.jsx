@@ -1,44 +1,72 @@
+import { useEffect, useState } from "react";
+
 import MainLayout from "../../../components/layout/MainLayout";
-import Card from "../../../components/ui/Card";
+
+import PageHeader from "../../../shared/components/PageHeader";
+
+import StatCard from "../../../shared/components/StatCard";
+
+import { Trophy, Flame, Brain, Target } from "lucide-react";
+
+import { getDashboard } from "../services/dashboardService";
 
 function Dashboard() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    loadDashboard();
+  }, []);
+
+  const loadDashboard = async () => {
+    try {
+      const result = await getDashboard();
+      setData(result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!data) {
     return (
-        <MainLayout>
+      <MainLayout>
+        <PageHeader title="Dashboard" />
 
-            <h1 className="text-3xl font-bold mb-8">
-                Dashboard
-            </h1>
-
-            <div className="grid grid-cols-2 gap-6">
-
-                <Card title="Today's Score">
-                    <h1 className="text-5xl font-bold">
-                        82
-                    </h1>
-                </Card>
-
-                <Card title="Current Streak">
-                    <h1 className="text-5xl font-bold">
-                        🔥 12
-                    </h1>
-                </Card>
-
-                <Card title="Problems Solved">
-                    <h1 className="text-5xl font-bold">
-                        15
-                    </h1>
-                </Card>
-
-                <Card title="IQ Score">
-                    <h1 className="text-5xl font-bold">
-                        124
-                    </h1>
-                </Card>
-
-            </div>
-
-        </MainLayout>
+        <p className="text-[var(--muted)]">Loading your dashboard...</p>
+      </MainLayout>
     );
+  }
+
+  return (
+    <MainLayout>
+      <PageHeader title="Dashboard" subtitle="Track your overall progress." />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <StatCard
+          title="Today's Score"
+          value={data.score}
+          icon={<Trophy size={22} />}
+        />
+
+        <StatCard
+          title="Current Streak"
+          value={data.streak}
+          icon={<Flame size={22} />}
+        />
+
+        <StatCard
+          title="Problems Solved"
+          value={data.problemsSolved}
+          icon={<Target size={22} />}
+        />
+
+        <StatCard
+          title="IQ Score"
+          value={data.iqScore}
+          icon={<Brain size={22} />}
+        />
+      </div>
+    </MainLayout>
+  );
 }
 
 export default Dashboard;

@@ -1,6 +1,21 @@
-function Card({ children }) {
+function Card({
+    children,
+    className = "",
+}) {
     return (
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 shadow-sm">
+        <div
+            className={`
+                bg-white
+                rounded-2xl
+                border
+                border-[var(--border)]
+                p-6
+                transition-all
+                duration-200
+                hover:border-[var(--pcolor)]
+                ${className}
+            `}
+        >
             {children}
         </div>
     );

@@ -1,12 +1,38 @@
-function MetricCard({ title, children }) {
-    return (
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">
-                {title}
-            </h2>
+import Card from "../../../shared/components/Card";
 
-            {children}
-        </div>
+function MetricCard({
+    title,
+    description,
+    children,
+}) {
+    return (
+
+        <Card className="mb-5 p-6 rounded-2xl">
+
+            <div className="flex items-center justify-between gap-8">
+
+                <div>
+
+                    <h2 className="text-lg font-semibold space-y-1">
+
+                        {title}
+
+                    </h2>
+
+                    <p className="text-sm text-[var(--muted)] mt-1 space-y-1">
+
+                        {description}
+
+                    </p>
+
+                </div>
+
+                {children}
+
+            </div>
+
+        </Card>
+
     );
 }
 

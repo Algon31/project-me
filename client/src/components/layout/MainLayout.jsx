@@ -3,16 +3,22 @@ import Sidebar from "./Sidebar";
 
 function MainLayout({ children }) {
     return (
-        <div className="h-screen flex flex-col">
+        <div className="min-h-screen bg-[var(--bg)]">
 
             <Navbar />
 
-            <div className="flex flex-1">
+            <div className="flex">
 
                 <Sidebar />
 
-                <main className="flex-1 p-8 overflow-auto">
-                    {children}
+                <main className="flex-1">
+
+                    <div className="mx-auto max-w-5xl px-10 py-10">
+
+                        {children}
+
+                    </div>
+
                 </main>
 
             </div>

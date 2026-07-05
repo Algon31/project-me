@@ -1,14 +1,29 @@
 function Button({
     children,
-    onClick,
     type = "button",
+    onClick,
     className = "",
+    disabled = false,
 }) {
     return (
         <button
             type={type}
             onClick={onClick}
-            className={`w-full rounded-xl bg-blue-600 px-4 py-3 text-white font-medium hover:bg-blue-700 transition ${className}`}
+            disabled={disabled}
+            className={`
+                w-full
+                rounded-xl
+                bg-[var(--pcolor)]
+                px-5
+                py-3
+                text-[var(--scolor)]
+                font-semibold
+                transition-colors
+                duration-200
+                hover:bg-[var(--pcolor-hover)]
+                disabled:opacity-60
+                ${className}
+            `}
         >
             {children}
         </button>
