@@ -4,50 +4,29 @@
 @import "@fontsource-variable/geist";
 @import "tailwindcss";
 
-:root {
+:root{
+    --pcolor:#B75A48;
+    --scolor:#E8ECD6;
 
-    /* Brand */
-    --pcolor: #B75A48;
-    --pcolor-hover: #A44D3D;
-    --scolor: #E8ECD6;
+    --bg:#E8ECD6;
+    --card:#FFFFFF;
 
-    /* App */
-    --bg: #E8ECD6;
-    --card: #FFFFFF;
+    --text:#1F2937;
+    --muted:#6B7280;
 
-    --border: #DDD8C8;
-
-    --text: #2E2E2E;
-    --muted: #6B7280;
-
-    --success: #4CAF50;
-    --danger: #D9534F;
-
+    --border:#D8D2C3;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,sans-serif;
 }
 
-html {
-    scroll-behavior: smooth;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Inter", sans-serif;
-}
-
-button {
-    cursor: pointer;
-}
-
-input,
-textarea,
-select,
-button {
-    font: inherit;
+button{
+    cursor:pointer;
 }

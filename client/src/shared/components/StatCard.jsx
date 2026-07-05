@@ -2,32 +2,45 @@ function StatCard({
     title,
     value,
     icon,
+    subtitle,
 }) {
     return (
-        <div className="
-            bg-[var(--card)]
-            border
-            border-[var(--border)]
-            rounded-2xl
-            p-6
-        ">
+        <div
+            className="
+                rounded-2xl
+                border
+                border-[var(--border)]
+                bg-white
+                p-4
+                transition-all
+                duration-200
+                hover:border-[var(--pcolor)]
+            "
+        >
+            <div className="mb-6 flex items-center justify-between">
 
-            <div className="flex justify-between items-center mb-4">
+                <div>
 
-                <p className="text-sm text-[var(--muted)]">
+                    <p className="text-sm text-[var(--muted)]">
+                        {title}
+                    </p>
 
-                    {title}
+                    {subtitle && (
+                        <p className="mt-1 text-xs text-[var(--muted)]">
+                            {subtitle}
+                        </p>
+                    )}
 
-                </p>
+                </div>
 
-                {icon}
+                <div className="rounded-xl bg-[var(--bg)] p-3 text-[var(--pcolor)]">
+                    {icon}
+                </div>
 
             </div>
 
-            <h2 className="text-4xl font-bold">
-
+            <h2 className="text-4xl font-bold tracking-tight">
                 {value}
-
             </h2>
 
         </div>

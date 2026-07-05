@@ -5,14 +5,12 @@ function Card({
     return (
         <div
             className={`
-                bg-white
                 rounded-2xl
                 border
                 border-[var(--border)]
+                bg-white
                 p-6
-                transition-all
-                duration-200
-                hover:border-[var(--pcolor)]
+                shadow-sm
                 ${className}
             `}
         >

@@ -20,7 +20,7 @@ function Button({
                 font-semibold
                 transition-colors
                 duration-200
-                hover:bg-[var(--pcolor-hover)]
+                hover:bg-[var(--pcolor)]
                 disabled:opacity-60
                 ${className}
             `}

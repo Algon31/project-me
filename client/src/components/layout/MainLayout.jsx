@@ -1,30 +1,27 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import BottomNav from "./BottomNav";
 
 function MainLayout({ children }) {
-    return (
-        <div className="min-h-screen bg-[var(--bg)]">
+  return (
+    <>
+      <Navbar />
 
-            <Navbar />
-
-            <div className="flex">
-
-                <Sidebar />
-
-                <main className="flex-1">
-
-                    <div className="mx-auto max-w-5xl px-10 py-10">
-
-                        {children}
-
-                    </div>
-
-                </main>
-
-            </div>
-
+      <div className="flex min-h-[calc(100vh-80px)]">
+        <div className="hidden md:block">
+          <Sidebar />
         </div>
-    );
+
+        <main className="flex-1">
+          <div className="mx-auto w-full max-w-7xl px-8 py-8 pb-24">
+            {children}
+          </div>
+        </main>
+      </div>
+
+      <BottomNav />
+    </>
+  );
 }
 
 export default MainLayout;

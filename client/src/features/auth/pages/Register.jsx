@@ -38,11 +38,11 @@ function Register() {
 
             await registerUser(form);
 
-            navigate("/");
+            navigate("/login");
 
         } catch (err) {
 
-            alert(err.response?.data?.message || "Registration Failed");
+            showError(err.response?.data?.message || "Registration Failed");
 
         } finally {
 
@@ -115,7 +115,7 @@ function Register() {
                     </p>
 
                     <Link
-                        to="/"
+                        to="/login"
                         className="font-semibold text-[var(--pcolor)]"
                     >
                         Login
