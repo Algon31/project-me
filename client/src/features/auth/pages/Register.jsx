@@ -1,9 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import AuthLayout from "../../../components/layout/AuthLayout";
+
+import Card from "../../../shared/components/Card";
+import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
+
 import { registerUser } from "../services/authService";
 
 function Register() {
+
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
@@ -19,58 +29,103 @@ function Register() {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         try {
-            const data = await registerUser(form);
 
-            alert("Registration Successful!");
+            setLoading(true);
 
-            console.log(data);
+            await registerUser(form);
 
             navigate("/");
-        } catch (error) {
-            alert(error.response?.data?.message || "Registration Failed");
+
+        } catch (err) {
+
+            alert(err.response?.data?.message || "Registration Failed");
+
+        } finally {
+
+            setLoading(false);
+
         }
     };
 
     return (
-        <div>
-            <h1>Register</h1>
+        <AuthLayout>
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                />
+            <Card>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                />
+                <div className="text-center mb-8">
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                    required
-                />
+                    <h1 className="text-4xl font-bold text-[var(--pcolor)]">
+                        Create Account
+                    </h1>
 
-                <button type="submit">
-                    Register
-                </button>
-            </form>
-        </div>
+                    <p className="mt-3 text-[var(--muted)]">
+                        Start your journey today.
+                    </p>
+
+                </div>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-5"
+                >
+
+                    <Input
+                        label="Name"
+                        name="name"
+                        placeholder="Enter your name"
+                        value={form.name}
+                        onChange={handleChange}
+                    />
+
+                    <Input
+                        label="Email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={form.email}
+                        onChange={handleChange}
+                    />
+
+                    <Input
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Create a password"
+                        value={form.password}
+                        onChange={handleChange}
+                    />
+
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                    >
+                        {loading ? "Creating..." : "Create Account"}
+                    </Button>
+
+                </form>
+
+                <div className="mt-8 text-center">
+
+                    <p className="text-sm text-[var(--muted)]">
+                        Already have an account?
+                    </p>
+
+                    <Link
+                        to="/"
+                        className="font-semibold text-[var(--pcolor)]"
+                    >
+                        Login
+                    </Link>
+
+                </div>
+
+            </Card>
+
+        </AuthLayout>
     );
 }
 

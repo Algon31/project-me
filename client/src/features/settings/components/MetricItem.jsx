@@ -1,24 +1,66 @@
-function MetricItem({ metric }) {
+import Card from "../../../shared/components/Card";
+import Button from "../../../shared/components/Button";
+import Badge from "../../../shared/components/Badge";
+
+function MetricItem({
+    metric,
+    onEdit,
+    onDelete,
+}) {
     return (
-        <div className="flex items-center justify-between border rounded-lg p-4">
+        <Card className="mb-5">
 
-            <div>
-                <h3 className="font-semibold">{metric.name}</h3>
+            <div className="flex justify-between items-start">
 
-                <p className="text-sm text-gray-500">
-                    {metric.type}
-                </p>
+                <div>
+
+                    <h2 className="text-xl font-semibold">
+                        {metric.name}
+                    </h2>
+
+                    <div className="mt-3 flex gap-2">
+
+                        <Badge>
+                            {metric.type}
+                        </Badge>
+
+                        <Badge>
+                            Weight : {metric.weight}
+                        </Badge>
+
+                    </div>
+
+                </div>
+
+                <div className="flex gap-3">
+
+                    <Button
+                        className="w-auto px-5"
+                        onClick={() => onEdit(metric)}
+                    >
+                        Edit
+                    </Button>
+
+                    <button
+                        onClick={() => onDelete(metric._id)}
+                        className="
+                            rounded-xl
+                            border
+                            border-red-300
+                            px-5
+                            py-3
+                            text-red-600
+                            hover:bg-red-50
+                        "
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
             </div>
 
-            <div className="space-x-2">
-
-                <button>Edit</button>
-
-                <button>Delete</button>
-
-            </div>
-
-        </div>
+        </Card>
     );
 }
 

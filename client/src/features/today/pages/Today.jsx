@@ -3,50 +3,54 @@ import { getMetrics } from "../services/metricService";
 import { getToday, saveToday } from "../services/todayService";
 import MainLayout from "../../../components/layout/MainLayout";
 import MetricRenderer from "../components/MetricRenderer";
+import PageHeader from "../../../shared/components/PageHeader";
+import Button from "@/shared/components/Button";
 
 function Today() {
   const [metrics, setMetrics] = useState([]);
+  const [saving, setSaving] = useState(false);
   useEffect(() => {
-    const loadMetrics = async () => {
-      try {
-        const data = await getMetrics();
-
-        const today = await getToday();
-
-        const formatted = data.map((metric) => {
-          const saved = today.values.find(
-            (value) => value.metric._id === metric._id,
-          );
-
-          return {
-            ...metric,
-            value: saved
-              ? saved.value
-              : metric.type === "checkbox"
-                ? false
-                : metric.type === "number"
-                  ? 0
-                  : "",
-          };
-        });
-
-        setMetrics(formatted);
-        console.log(formatted);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadMetrics();
+    loadPage();
   }, []);
+  const loadPage = async () => {
+    try {
+      const metricsData = await getMetrics();
+
+      const todayData = await getToday();
+
+      const merged = metricsData.map((metric) => {
+        const saved = todayData.values.find(
+          (item) => item.metric._id === metric._id,
+        );
+
+        return {
+          ...metric,
+          value: saved
+            ? saved.value
+            : metric.type === "checkbox"
+              ? false
+              : metric.type === "number"
+                ? 0
+                : "",
+        };
+      });
+
+      setMetrics(merged);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const updateMetric = (id, value) => {
     setMetrics((prev) =>
       prev.map((metric) => (metric._id === id ? { ...metric, value } : metric)),
     );
   };
+
   const handleSave = async () => {
     try {
+      setSaving(true);
+
       await saveToday(
         metrics.map((metric) => ({
           metric: metric._id,
@@ -54,16 +58,24 @@ function Today() {
         })),
       );
 
+      await loadPage();
+
       alert("Today's progress saved!");
     } catch (error) {
       console.error(error);
+    } finally {
+      setSaving(false);
     }
   };
+
   return (
     <MainLayout>
-      <h1 className="text-3xl font-bold mb-8">Today's Mission</h1>
+      <PageHeader 
+        title="Today's Progress"
+        subtitle="Small improvements every day become big changes."
+      />
 
-      <div className="space-y-6">
+      <div className="space-y-6 bg">
         {metrics.map((metric) => (
           <MetricRenderer
             key={metric._id}
@@ -72,12 +84,9 @@ function Today() {
           />
         ))}
 
-        <button
-          onClick={handleSave}
-          className="w-full bg-blue-600 text-white rounded-xl py-3"
-        >
-          Save Today's Progress
-        </button>
+        <Button onClick={handleSave} disabled={saving} className="mt-8 max-w-md">
+          {saving ? "Saving..." : "Save Today's Progress"}
+        </Button>
       </div>
     </MainLayout>
   );

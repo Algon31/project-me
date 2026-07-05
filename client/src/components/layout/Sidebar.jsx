@@ -1,23 +1,64 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { House, LayoutDashboard, ChartColumn, Settings } from "lucide-react";
 
 function Sidebar() {
-    return (
-        <aside className="w-60 border-r h-full p-4">
-            <nav className="flex flex-col gap-4">
+  const linkClass = ({ isActive }) =>
+    `
+flex
+items-center
+gap-3
+rounded-xl
+px-4
+py-3
+font-medium
+transition-colors
 
-                <Link to="/today">Today</Link>
+${
+  isActive
+    ? "bg-[var(--pcolor)] text-[var(--scolor)]"
+    : "text-[var(--text)] hover:bg-[var(--scolor)]"
+}
+`;
 
-                <Link to="/dashboard">Dashboard</Link>
+  return (
+    <aside
+      className="
+        w-[260px]
+        min-h-[calc(100vh-64px)]
+        bg-white
+        border-r
+        border-[var(--border)]
+        px-6
+        py-8
+        "
+    >
+      <h2 className="text-3xl font-bold text-[var(--pcolor)] mb-10">
+        Project : ME
+      </h2>
 
-                <Link to="/analytics">Analytics</Link>
+      <nav className="space-y-2">
+        <NavLink to="/today" className={linkClass}>
+          <House size={20} />
+          Today
+        </NavLink>
 
-                <Link to="/settings">Settings</Link>
+        <NavLink to="/dashboard" className={linkClass}>
+          <LayoutDashboard size={20} />
+          Dashboard
+        </NavLink>
 
-                <Link to="/">Logout</Link>
+        <NavLink to="/analytics" className={linkClass}>
+          <ChartColumn size={20} />
+          Analytics
+        </NavLink>
 
-            </nav>
-        </aside>
-    );
+        <NavLink to="/settings" className={linkClass}>
+          <Settings size={20} />
+          Settings
+        </NavLink>
+      </nav>
+    </aside>
+  );
 }
 
 export default Sidebar;

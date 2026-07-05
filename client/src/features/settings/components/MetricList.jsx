@@ -1,14 +1,29 @@
 import MetricItem from "./MetricItem";
 
-function MetricList({ metrics }) {
+function MetricList({
+    metrics,
+    onEdit,
+    onDelete,
+}) {
     return (
-        <div className="space-y-4">
+        <div>
+
             {metrics.map(metric => (
+
                 <MetricItem
+
                     key={metric._id}
+
                     metric={metric}
+
+                    onEdit={onEdit}
+
+                    onDelete={onDelete}
+
                 />
+
             ))}
+
         </div>
     );
 }

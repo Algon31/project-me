@@ -1,60 +1,126 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import AuthLayout from "../../../components/layout/AuthLayout";
+
+import Card from "../../../shared/components/Card";
+import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
 
 import { loginUser } from "../services/authService";
 import { useAuth } from "../../../context/AuthContext";
 
 function Login() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
-  const { user, login } = useAuth();
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      navigate("/today");
-    }
-  }, [user, navigate]);
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
     });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-    try {
-      const data = await loginUser(form);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      login(data.user, data.token);
+        try {
+            setLoading(true);
 
-      navigate("/today");
-    } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
-    }
-  };
+            const data = await loginUser(form);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" onChange={handleChange} />
+            login(data.user, data.token);
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
+            navigate("/today");
 
-      <button type="submit">Login</button>
-    </form>
-  );
+        } catch (err) {
+
+            alert(err.response?.data?.message || "Login Failed");
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    };
+
+    return (
+        <AuthLayout>
+
+            <Card>
+
+                <div className="text-center mb-8">
+
+                    <h1 className="text-4xl font-bold text-[var(--pcolor)]">
+                        Project : ME
+                    </h1>
+
+                    <p className="mt-3 text-[var(--muted)]">
+                        Become 1% Better Every Day.
+                    </p>
+
+                </div>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-5"
+                >
+
+                    <Input
+                        label="Email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={form.email}
+                        onChange={handleChange}
+                    />
+
+                    <Input
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        value={form.password}
+                        onChange={handleChange}
+                    />
+
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                    >
+                        {loading ? "Logging in..." : "Login"}
+                    </Button>
+
+                </form>
+
+                <div className="mt-8 text-center">
+
+                    <p className="text-sm text-[var(--muted)]">
+
+                        Don't have an account?
+
+                    </p>
+
+                    <Link
+                        to="/register"
+                        className="font-semibold text-[var(--pcolor)]"
+                    >
+                        Create Account
+                    </Link>
+
+                </div>
+
+            </Card>
+
+        </AuthLayout>
+    );
 }
 
 export default Login;
