@@ -56,7 +56,7 @@ function Landing() {
 
           <Link to="/login">
 
-            <Button className="px-10 bg-transparent border border-[var(--pcolor)] text-[var(--pcolor)] hover:bg-[var(--pcolor)] hover:text-white">
+            <Button className="px-10">
 
               Continue Journey
 
