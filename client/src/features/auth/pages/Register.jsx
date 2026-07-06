@@ -5,6 +5,7 @@ import AuthLayout from "../../../components/layout/AuthLayout";
 
 import Card from "../../../shared/components/Card";
 import Input from "../../../shared/components/Input";
+import { showError } from "@/lib/toast";
 import Button from "../../../shared/components/Button";
 
 import { registerUser } from "../services/authService";

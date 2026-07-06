@@ -1,15 +1,27 @@
 import api from "../../../services/api";
 
-export const getToday = async () => {
+export async function getToday() {
+
     const response = await api.get("/today");
 
     return response.data;
-};
 
-export const saveToday = async (values) => {
-    const response = await api.post("/today", {
-        values,
-    });
+}
+
+export async function saveQuest(id, value) {
+
+    const response = await api.post(
+
+        `/today/quest/${id}`,
+
+        {
+
+            value,
+
+        }
+
+    );
 
     return response.data;
-};
+
+}

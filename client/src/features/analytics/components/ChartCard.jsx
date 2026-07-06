@@ -1,26 +1,26 @@
 import Card from "../../../shared/components/Card";
 
 function ChartCard({
-    title,
-    children,
+  title,
+  children,
 }) {
+  return (
+    <Card className="mb-8">
 
-    return (
+      <div className="mb-6">
 
-        <Card className="mb-8">
+        <h2 className="text-2xl font-bold">
 
-            <h2 className="mb-8 text-2xl font-semibold">
+          {title}
 
-                {title}
+        </h2>
 
-            </h2>
+      </div>
 
-            {children}
+      {children}
 
-        </Card>
-
-    );
-
+    </Card>
+  );
 }
 
 export default ChartCard;

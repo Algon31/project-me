@@ -5,12 +5,12 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
 const getToday = require("../controllers/today/getToday");
-const saveToday = require("../controllers/today/saveToday");
+const saveQuest = require("../controllers/today/saveQuest");
 
 router.use(authMiddleware);
 
 router.get("/", getToday);
 
-router.post("/", saveToday);
+router.post("/quest/:id", saveQuest);
 
 module.exports = router;

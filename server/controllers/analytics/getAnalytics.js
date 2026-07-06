@@ -1,62 +1,134 @@
 const DailyEntry = require("../../models/DailyEntry");
+const Character = require("../../models/Character");
 
 const getAnalytics = async (req, res) => {
+
     try {
 
         const entries = await DailyEntry.find({
+
             user: req.user.id,
+
         }).sort({ date: 1 });
 
-        const completionData = entries.map(entry => ({
+        const character = await Character.findOne({
+
+            user: req.user.id,
+
+        });
+
+        const xpTimeline = entries.map(entry => ({
+
             date: entry.date,
-            completion: entry.completionPercentage,
+
+            xp: entry.totalXP,
+
         }));
 
-        const scoreData = entries.map(entry => ({
+        const completionTimeline = entries.map(entry => ({
+
             date: entry.date,
-            score: entry.score,
+
+            completion: entry.completionPercentage,
+
         }));
 
         const stats = {
+
             totalDays: entries.length,
 
-            averageScore:
-                entries.length > 0
-                    ? Math.round(
-                          entries.reduce(
-                              (sum, entry) => sum + entry.score,
-                              0
-                          ) / entries.length
-                      )
+            totalXP:
+
+                entries.reduce(
+
+                    (sum, entry) => sum + entry.totalXP,
+
+                    0
+
+                ),
+
+            averageXP:
+
+                entries.length
+
+                    ?
+
+                    Math.round(
+
+                        entries.reduce(
+
+                            (sum, entry) =>
+
+                                sum + entry.totalXP,
+
+                            0
+
+                        ) / entries.length
+
+                    )
+
                     : 0,
 
             averageCompletion:
-                entries.length > 0
-                    ? Math.round(
-                          entries.reduce(
-                              (sum, entry) =>
-                                  sum + entry.completionPercentage,
-                              0
-                          ) / entries.length
-                      )
+
+                entries.length
+
+                    ?
+
+                    Math.round(
+
+                        entries.reduce(
+
+                            (sum, entry) =>
+
+                                sum + entry.completionPercentage,
+
+                            0
+
+                        ) / entries.length
+
+                    )
+
                     : 0,
+
+            level: character.level,
+
+            rank: character.rank,
+
         };
 
         res.json({
-            completionData,
-            scoreData,
+
+            xpTimeline,
+
+            completionTimeline,
+
+            attributes: character.attributes,
+
+            skills: Object.fromEntries(
+
+                character.skills
+
+            ),
+
             stats,
+
         });
 
-    } catch (error) {
+    }
+
+    catch(error){
 
         console.error(error);
 
         res.status(500).json({
-            message: "Server Error",
+
+            message:"Server Error",
+
         });
 
     }
+
 };
 
 module.exports = getAnalytics;

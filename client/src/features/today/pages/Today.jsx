@@ -1,101 +1,179 @@
-  import { useEffect, useState } from "react";
-  import { getMetrics } from "../services/metricService";
-  import { getToday, saveToday } from "../services/todayService";
-  import MainLayout from "../../../components/layout/MainLayout";
-  import MetricRenderer from "../components/MetricRenderer";
-  import PageHeader from "../../../shared/components/PageHeader";
-  import Button from "@/shared/components/Button";
-  import { showSuccess, showError } from "../../../lib/toast";
+import { useEffect, useState } from "react";
 
-  function Today() {
-    const [metrics, setMetrics] = useState([]);
-    const [saving, setSaving] = useState(false);
-    useEffect(() => {
-      loadPage();
-    }, []);
-    const loadPage = async () => {
-      try {
-        const metricsData = await getMetrics();
+import MainLayout from "../../../components/layout/MainLayout";
+import PageHeader from "../../../shared/components/PageHeader";
 
-        const todayData = await getToday();
+import QuestRenderer from "../components/QuestRenderer";
+import QuestCompletedModal from "../components/QuestCompletedModal";
 
-        const merged = metricsData.map((metric) => {
-          const saved = todayData.values.find(
-            (item) => item.metric._id === metric._id,
-          );
+import { showError } from "../../../lib/toast";
 
-          return {
-            ...metric,
-            value: saved
-              ? saved.value
-              : metric.type === "checkbox"
-                ? false
-                : metric.type === "number"
-                  ? 0
-                  : "",
-          };
-        });
+import { getQuests } from "../../settings/services/questService";
+import { getToday, saveQuest } from "../services/todayService";
 
-        setMetrics(merged);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+function Today() {
+  const [quests, setQuests] = useState([]);
+  const [result, setResult] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-    const updateMetric = (id, value) => {
-      setMetrics((prev) =>
-        prev.map((metric) => (metric._id === id ? { ...metric, value } : metric)),
-      );
-    };
+  useEffect(() => {
+    loadPage();
+  }, []);
 
-    const handleSave = async () => {
-      try {
-        setSaving(true);
+  async function loadPage() {
+    try {
+      const allQuests = await getQuests();
+      const today = await getToday();
 
-        await saveToday(
-          metrics.map((metric) => ({
-            metric: metric._id,
-            value: metric.value,
-          })),
-        );
+      const savedQuests = today?.quests || [];
 
-        await loadPage();
+      const merged = allQuests.map((quest) => {
+        const saved = savedQuests.find((q) => q.quest._id === quest._id);
 
-        showSuccess("Today's progress saved!");
-      } catch (error) {
-        showError("Unable to save today's progress.");
-        console.error(error);
-      } finally {
-        setSaving(false);
-      }
-    };
+        return {
+          ...quest,
 
-    return (
-      <MainLayout>
-        <PageHeader
-          title="Today's Progress"
-          subtitle="Small improvements every day become big changes."
-        />
+          completed: saved ? saved.completed : false,
 
-        <div className="space-y-6 bg">
-          {metrics.map((metric) => (
-            <MetricRenderer
-              key={metric._id}
-              metric={metric}
-              onChange={(value) => updateMetric(metric._id, value)}
-            />
-          ))}
+          value: saved
+            ? saved.value
+            : quest.inputType === "checkbox"
+              ? false
+              : quest.inputType === "number"
+                ? 0
+                : "",
+        };
+      });
 
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            className="mt-8 max-w-md"
-          >
-            {saving ? "Saving..." : "Save Today's Progress"}
-          </Button>
-        </div>
-      </MainLayout>
+      setQuests(merged);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function updateQuest(id, value) {
+    setQuests((prev) =>
+      prev.map((quest) =>
+        quest._id === id
+          ? {
+              ...quest,
+              value,
+            }
+          : quest,
+      ),
     );
   }
 
-  export default Today;
+  async function completeQuest(quest) {
+    try {
+      const result = await saveQuest(quest._id, quest.value);
+
+      setQuests((prev) =>
+        prev.map((q) =>
+          q._id === quest._id
+            ? {
+                ...q,
+                completed: true,
+              }
+            : q,
+        ),
+      );
+
+      setResult({
+        ...result,
+        questName: quest.name,
+      });
+
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+
+      showError("Unable to save quest.");
+    }
+  }
+
+  return (
+    <MainLayout>
+      <PageHeader
+        title="Daily Quests"
+        subtitle="Complete quests. Earn XP. Build your character."
+      />
+
+      <div
+        className="
+          mb-8
+          rounded-3xl
+          bg-[var(--pcolor)]
+          p-6
+          text-white
+        "
+      >
+        <h2 className="text-4xl font-black">Today's Journey</h2>
+
+        <p className="mt-2 opacity-80">
+          Finish your Core Quests to become stronger.
+        </p>
+      </div>
+
+      <div className="space-y-12 pb-24">
+        <div>
+          <h2
+            className="
+        mb-6
+        text-2xl
+        font-black
+        sm:text-3xl
+        lg:text-4xl
+    "
+          >
+            💪 Physical Quests
+          </h2>
+
+          {quests
+            .filter((q) => q.category === "Physical")
+            .map((quest) => (
+              <QuestRenderer
+                key={quest._id}
+                quest={quest}
+                onChange={(value) => updateQuest(quest._id, value)}
+                onSave={() => completeQuest(quest)}
+              />
+            ))}
+        </div>
+
+        <div>
+          <h2
+            className="
+        mb-6
+        text-2xl
+        font-black
+        sm:text-3xl
+        lg:text-4xl
+    "
+          >
+            🧠 Mind Quests
+          </h2>
+
+          {quests
+            .filter((q) => q.category === "Mind")
+            .map((quest) => (
+              <QuestRenderer
+                key={quest._id}
+                quest={quest}
+                onChange={(value) => updateQuest(quest._id, value)}
+                onSave={() => completeQuest(quest)}
+              />
+            ))}
+        </div>
+      </div>
+
+      <QuestCompletedModal
+        open={showModal}
+        result={result}
+        onClose={() => setShowModal(false)}
+      />
+    </MainLayout>
+  );
+}
+
+export default Today;

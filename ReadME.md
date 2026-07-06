@@ -1,37 +1,162 @@
-# 🚀 Project: ME
+# Project: ME v2
 
-A personal productivity and self-improvement tracker built with the MERN stack.
+> Become the Main Character of Your Life.
 
-Project: ME helps users build consistent daily habits by tracking progress, measuring performance, and visualizing improvement over time.
+Project: ME is a gamified personal growth application that transforms everyday self-improvement into an RPG-like progression system. Instead of simply tracking habits, every action contributes toward building your character.
 
----
+Daily quests reward experience points, attributes grow over time, skills improve through repetition, and long-term consistency shapes your character's progression.
 
-## ✨ Features
+The goal is simple:
 
-- 🔐 Secure Authentication (JWT)
-- 📊 Personal Dashboard
-- ✅ Daily Habit Tracker
-- 📈 Analytics Dashboard
-- ⚙️ Custom Metric Management
-- 🔥 Streak Tracking
-- 📅 Daily Progress History
-- 📱 Responsive Design
+**Level up yourself in real life.**
 
 ---
 
-## Tech Stack
+## Core Philosophy
 
-### Frontend
+Most productivity apps measure completed tasks.
+
+Project: ME measures **character progression**.
+
+Every completed quest makes your character stronger.
+
+Instead of asking:
+
+> "Did I finish my habits today?"
+
+Project: ME asks:
+
+> "Who did I become today?"
+
+---
+
+# Features
+
+## Character Progression
+
+Build a character that grows alongside you.
+
+- Character Levels
+- XP System
+- Rank System
+- Current & Longest Streaks
+- Multiple Attributes
+- Individual Skills
+
+---
+
+## Daily Quests
+
+Complete real-world tasks to earn XP.
+
+Examples:
+
+- Gym
+- Reading
+- Coding
+- Meditation
+- Walking
+- Journaling
+- Any custom quest
+
+Each quest can have:
+
+- Checkbox input
+- Number input
+- Text input
+
+---
+
+## RPG Progression
+
+Every quest contributes toward your character.
+
+Attributes include:
+
+- Strength
+- Endurance
+- Health
+- Knowledge
+- Focus
+- Creativity
+- Discipline
+- Consistency
+
+Skills are independent from attributes and level up individually.
+
+Example:
+
+Knowledge
+
+├── Programming
+
+├── React
+
+├── Linux
+
+└── AI
+
+---
+
+## Forge
+
+Create your own quests.
+
+Customize:
+
+- Quest Type
+- Category
+- XP Reward
+- Difficulty
+- Input Type
+- Attributes affected
+- Skills affected
+
+---
+
+## Progress
+
+Track your improvement through analytics.
+
+View:
+
+- XP progression
+- Completion rate
+- Daily performance
+- Long-term trends
+
+---
+
+## Achievements
+
+Unlock milestones by maintaining consistency and progressing through your journey.
+
+---
+
+## Notifications
+
+Receive progression updates when completing quests, leveling up, unlocking achievements, or reaching important milestones.
+
+---
+
+## Main Quests
+
+Create long-term objectives that require multiple days or weeks to complete.
+
+---
+
+# Tech Stack
+
+Frontend
 
 - React
 - Vite
 - Tailwind CSS
-- Axios
 - React Router
-- Lucide Icons
+- Axios
 - Recharts
 
-### Backend
+Backend
 
 - Node.js
 - Express.js
@@ -42,131 +167,52 @@ Project: ME helps users build consistent daily habits by tracking progress, meas
 
 ---
 
-## Folder Structure
+# Project Structure
 
 ```
-project-me
-
 client/
-    src/
-        components/
-        context/
-        features/
-        shared/
-        services/
-
 server/
-    controllers/
-    middleware/
-    models/
-    routes/
-    config/
 ```
+
+Client contains the React application.
+
+Server contains the Express REST API and game engine.
 
 ---
 
-## Installation
+# Current Status
 
-### Clone
+Version: **v2.0**
 
-```bash
-git clone https://github.com/Algon31/project-me.git
-```
+Current implementation includes:
 
-### Install
-
-Backend
-
-```bash
-cd server
-npm install
-```
-
-Frontend
-
-```bash
-cd client
-npm install
-```
+- Authentication
+- Character System
+- Daily Quest System
+- RPG Progression
+- XP & Leveling
+- Attributes
+- Skills
+- Achievements
+- Notifications
+- Analytics
+- Main Quests
+- Responsive Interface
 
 ---
 
-## Environment Variables
+# Vision
 
-Create a `.env` inside the server.
+Project: ME is designed as a long-term self-improvement RPG.
 
-```
-PORT=5000
+The objective is not simply to complete tasks, but to continuously improve the person behind the screen.
 
-MONGO_URI=your_mongodb_connection_string
+Every day is another opportunity to gain experience.
 
-JWT_SECRET=your_secret_key
-```
+Every quest completed is progress.
 
-Create a `.env` inside the client.
-
-```
-VITE_API_URL=http://localhost:5000/api
-```
+Every level earned represents real personal growth.
 
 ---
 
-## Running the Project
-
-Backend
-
-```bash
-npm run dev
-```
-
-Frontend
-
-```bash
-npm run dev
-```
-
----
-
-## Screenshots
-
-### Dashboard
-
-> Add dashboard screenshot here.
-
-### Today
-
-> Add today's tracker screenshot here.
-
-### Analytics
-
-> Add analytics screenshot here.
-
-### Settings
-
-> Add settings screenshot here.
-
----
-
-## Future Improvements
-
-- Dark Mode
-- Calendar Heatmap
-- Export Progress
-- Weekly Reports
-- Habit Categories
-
----
-
-## Author
-
-**Ravi Bhuvan**
-
-GitHub
-
-https://github.com/Algon31
-
----
-
-## License
-
-MIT License
+> Become 1% Better Every Day.

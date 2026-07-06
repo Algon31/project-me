@@ -2,12 +2,16 @@ const express = require("express");
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
-const authMiddleware = require("./middleware/authMiddleware");
-const metricRoutes = require("./routes/metricRoutes");
-const todayRoutes = require("./routes/todayRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
-const analyticsRoutes = require("./routes/analyticsRoutes");
 
+const authMiddleware = require("./middleware/authMiddleware");
+
+const questRoutes = require("./routes/questRoutes");
+const todayRoutes = require("./routes/todayRoutes");
+const characterRoutes = require("./routes/characterRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+const achivementsRoutes = require("./routes/achievementRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const goalsRoutes = require("./routes/goalRoutes")
 
 const app = express();
 
@@ -21,16 +25,28 @@ app.get("/", (req, res) => {
         message: "Project: ME API is running 🚀",
     });
 });
-app.get("/api/profile", authMiddleware, (req, res) => {
-    res.json({
-        message: "Welcome to Project: ME",
-        user: req.user,
-    });
-});
-app.use("/api/metrics", metricRoutes);
-app.use("/api/today", todayRoutes);
-app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/analytics", analyticsRoutes);
 
+app.get("/api/profile", authMiddleware, (req, res) => {
+
+    res.json({
+
+        message: "Welcome to Project : ME",
+
+        user: req.user,
+
+    });
+
+});
+
+app.use("/api/quests", questRoutes);
+
+app.use("/api/today", todayRoutes);
+
+app.use("/api/character", characterRoutes);
+
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/achievements", achivementsRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/goals", goalsRoutes);
 
 module.exports = app;

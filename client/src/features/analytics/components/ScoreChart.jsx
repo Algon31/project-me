@@ -3,38 +3,29 @@ import {
   LineChart,
   Line,
   XAxis,
-  YAxis,
+ YAxis,
   Tooltip,
   CartesianGrid,
 } from "recharts";
 
 function ScoreChart({ data }) {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={320}>
       <LineChart data={data}>
         <CartesianGrid stroke="#DDD8C8" strokeDasharray="5 5" />
 
-        <XAxis
-          dataKey="date"
-          tick={{
-            fontSize: 12,
-          }}
-        />
+        <XAxis dataKey="date" />
 
         <YAxis />
 
-        <Tooltip
-          contentStyle={{
-            borderRadius: 12,
-            border: "1px solid #DDD8C8",
-          }}
-        />
+        <Tooltip />
 
         <Line
           type="monotone"
-          dataKey="score"
+          dataKey="xp"
           stroke="#B75A48"
-          strokeWidth={3}
+          strokeWidth={4}
+          dot={{ r: 5 }}
         />
       </LineChart>
     </ResponsiveContainer>

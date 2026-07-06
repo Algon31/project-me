@@ -4,11 +4,13 @@ import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
-import Dashboard from "./features/dashboard/pages/Dashboard";
+import Status from "./features/dashboard/pages/Status";
 import Today from "./features/today/pages/Today";
 import Analytics from "./features/analytics/pages/Analytics";
-
-import Settings from "./features/settings/pages/Settings";
+import Achievements from "./features/achievements/pages/Achievements";
+import Notifications from "./features/notifications/pages/Notifications";
+import Goals from "./features/goals/pages/Goals";
+import Settings from "./features/settings/pages/Forge";
 import NotFound from "./pages/NotFound";
 import Landing from "./features/home/pages/Landing";
 
@@ -21,10 +23,10 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-          path="/dashboard"
+          path="/Status"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Status />
             </ProtectedRoute>
           }
         />
@@ -55,7 +57,32 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/achievements"
+          element={
+            <ProtectedRoute>
+              <Achievements />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/goals"
+          element={
+            <ProtectedRoute>
+              <Goals />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

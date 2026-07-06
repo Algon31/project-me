@@ -1,90 +1,195 @@
 const DailyEntry = require("../../models/DailyEntry");
-const Metric = require("../../models/Metric");
+const Quest = require("../../models/Quest");
+const Character = require("../../models/Character");
+
+const {
+    updateCharacter,
+} = require("../../services/characterEngine");
+
+const {
+    updateStreak,
+} = require("../../services/streakEngine");
+
+const {
+    applyPenalty,
+} = require("../../services/dailyPenaltyEngine");
+
 
 const saveToday = async (req, res) => {
+
     try {
-        const today = new Date().toISOString().split("T")[0];
 
-        const { values } = req.body;
+        const today =
+            new Date().toISOString().split("T")[0];
 
-        // Get all active metrics
-        const metrics = await Metric.find({
-            user: req.user.id,
-            active: true,
-        });
+        const { quests: values } = req.body;
 
-        let score = 0;
+        const quests =
+            await Quest.find({
+
+                user: req.user.id,
+
+                active: true,
+
+            });
+
+        let totalXP = 0;
         let completed = 0;
 
-        for (const metric of metrics) {
-            const value = values.find(
-                (v) => String(v.metric) === String(metric._id)
+        const savedQuests = [];
+
+        for (const quest of quests) {
+
+            const input = values.find(
+
+                (v) =>
+
+                    String(v.quest) ===
+
+                    String(quest._id)
+
             );
 
-            if (!value) continue;
+            if (!input) continue;
 
-            switch (metric.type) {
-                case "checkbox":
-                    if (value.value === true) {
-                        completed++;
-                        score += metric.weight;
-                    }
-                    break;
+            const xpEarned =
+                await updateCharacter(
 
-                case "number":
-                    score += Number(value.value || 0);
-                    completed++;
-                    break;
+                    req.user.id,
 
-                case "text":
-                    if (value.value && value.value.trim() !== "") {
-                        completed++;
-                    }
-                    break;
+                    quest,
+
+                    input.value
+
+                );
+
+            if (xpEarned > 0) {
+
+                completed++;
+
             }
+
+            totalXP += xpEarned;
+
+            savedQuests.push({
+
+                quest: quest._id,
+
+                value: input.value,
+
+                xpEarned,
+
+                completed: xpEarned > 0,
+
+            });
+
         }
 
-        const completionPercentage = Math.round(
-            (completed / metrics.length) * 100
+        const character =
+            await Character.findOne({
+
+                user: req.user.id,
+
+            });
+
+        await updateStreak(
+
+            character,
+
+            savedQuests,
+
         );
 
-        let entry = await DailyEntry.findOne({
-            user: req.user.id,
-            date: today,
-        });
+        await applyPenalty(
+
+            character,
+
+            savedQuests,
+
+        );
+
+        await character.save();
+
+        const completionPercentage =
+            quests.length === 0
+                ? 0
+                : Math.round(
+
+                    (completed / quests.length) * 100
+
+                );
+
+        let entry =
+            await DailyEntry.findOne({
+
+                user: req.user.id,
+
+                date: today,
+
+            });
 
         if (entry) {
-            entry.values = values;
-            entry.score = score;
-            entry.completed = completed;
-            entry.totalMetrics = metrics.length;
-            entry.completionPercentage = completionPercentage;
+
+            entry.quests = savedQuests;
+
+            entry.totalXP = totalXP;
+
+            entry.completedQuests = completed;
+
+            entry.totalQuests = quests.length;
+
+            entry.completionPercentage =
+                completionPercentage;
 
             await entry.save();
-        } else {
-            entry = await DailyEntry.create({
-                user: req.user.id,
-                date: today,
-                values,
-                score,
-                completed,
-                totalMetrics: metrics.length,
-                completionPercentage,
-            });
+
+        }
+
+        else {
+
+            entry =
+                await DailyEntry.create({
+
+                    user: req.user.id,
+
+                    date: today,
+
+                    quests: savedQuests,
+
+                    totalXP,
+
+                    completedQuests: completed,
+
+                    totalQuests: quests.length,
+
+                    completionPercentage,
+
+                });
+
         }
 
         res.json({
-            message: "Today's progress saved successfully",
+
+            message: "Daily quests saved.",
+
             entry,
+
         });
 
-    } catch (error) {
+    }
+
+    catch (error) {
+
         console.error(error);
 
         res.status(500).json({
+
             message: "Server Error",
+
         });
+
     }
+
 };
 
 module.exports = saveToday;

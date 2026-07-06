@@ -1,5 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { House, LayoutDashboard, ChartColumn, Settings } from "lucide-react";
+import {
+  House,
+  LayoutDashboard,
+  ChartColumn,
+  Settings,
+  Trophy,
+  Bell,
+  Target,
+} from "lucide-react";
 
 function Sidebar() {
   const linkClass = ({ isActive }) =>
@@ -35,25 +43,37 @@ ${
         text-[var(--scolor)]
         "
     >
-
       <nav className="space-y-2">
-        <NavLink to="/dashboard" className={linkClass}>
+        <NavLink to="/status" className={linkClass}>
           <LayoutDashboard size={20} />
-          Dashboard
+          Status
         </NavLink>
+
         <NavLink to="/today" className={linkClass}>
           <House size={20} />
-          Today
+          Daily Quests
         </NavLink>
 
         <NavLink to="/analytics" className={linkClass}>
           <ChartColumn size={20} />
-          Analytics
+          Progress
+        </NavLink>
+        <NavLink to="/goals" className={linkClass}>
+          <Target size={20} />
+          Main Quests
         </NavLink>
 
         <NavLink to="/settings" className={linkClass}>
           <Settings size={20} />
-          Settings
+          Forge
+        </NavLink>
+        <NavLink to="/achievements" className={linkClass}>
+          <Trophy size={20} />
+          Achievements
+        </NavLink>
+        <NavLink to="/notifications" className={linkClass}>
+          <Bell size={20} />
+          Notifications
         </NavLink>
       </nav>
     </aside>

@@ -1,32 +1,68 @@
 import { Check } from "lucide-react";
 
 function Checkbox({
+
     checked,
+
     onClick,
-}) {
-    return (
+
+}){
+
+    return(
+
         <button
+
             onClick={onClick}
+
             className={`
+
                 flex
-                h-8
-                w-8
+
+                h-14
+
+                w-14
+
                 items-center
+
                 justify-center
-                rounded-md
-                border
-                transition-colors
+
+                rounded-2xl
+
+                border-2
+
+                transition-all
+
+                duration-300
 
                 ${
                     checked
-                        ? "bg-[var(--pcolor)] border-[var(--pcolor)] text-white"
-                        : "bg-white border-[var(--border)]"
+
+                    ?
+
+                    "border-green-500 bg-green-500 text-white scale-110"
+
+                    :
+
+                    "border-[var(--border)] bg-white hover:border-[var(--pcolor)]"
+
                 }
+
             `}
+
         >
-            {checked && <Check size={16} />}
+
+            {
+
+                checked &&
+
+                <Check size={26}/>
+
+            }
+
         </button>
+
     );
+
 }
 
 export default Checkbox;

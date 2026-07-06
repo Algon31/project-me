@@ -1,58 +1,76 @@
 const mongoose = require("mongoose");
 
 const dailyEntrySchema = new mongoose.Schema(
-{
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true,
-    },
-
-    date:{
-        type:String,
-        required:true,
-    },
-
-    values:[
-        {
-            metric:{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:"Metric",
-                required:true,
-            },
-
-            value:{
-                type:mongoose.Schema.Types.Mixed,
-                default:null,
-            },
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
         },
-    ],
 
-    // NEW -----------------------
+        date: {
+            type: String,
+            required: true,
+        },
 
-    score:{
-        type:Number,
-        default:0,
+        quests: [
+            {
+                quest: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Quest",
+                    required: true,
+                },
+
+                value: {
+                    type: mongoose.Schema.Types.Mixed,
+                    default: null,
+                },
+
+                xpEarned: {
+                    type: Number,
+                    default: 0,
+                },
+
+                completed: {
+                    type: Boolean,
+                    default: false,
+                },
+            },
+        ],
+
+        totalXP: {
+            type: Number,
+            default: 0,
+        },
+
+        completedQuests: {
+            type: Number,
+            default: 0,
+        },
+
+        totalQuests: {
+            type: Number,
+            default: 0,
+        },
+
+        completionPercentage: {
+            type: Number,
+            default: 0,
+        },
     },
+    {
+        timestamps: true,
+    }
+);
 
-    completed:{
-        type:Number,
-        default:0,
+dailyEntrySchema.index(
+    {
+        user: 1,
+        date: 1,
     },
-
-    totalMetrics:{
-        type:Number,
-        default:0,
-    },
-
-    completionPercentage:{
-        type:Number,
-        default:0,
-    },
-
-},
-{
-    timestamps:true,
-});
+    {
+        unique: true,
+    }
+);
 
 module.exports = mongoose.model("DailyEntry", dailyEntrySchema);

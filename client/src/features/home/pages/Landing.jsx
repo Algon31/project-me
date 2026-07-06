@@ -1,74 +1,129 @@
 import { Link } from "react-router-dom";
 
 import Button from "../../../shared/components/Button";
-import Card from "../../../shared/components/Card";
 
 function Landing() {
-    return (
-        <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-6">
 
-            <Card className="max-w-2xl w-full text-center">
+  return (
 
-                <h1 className="text-6xl font-bold text-[var(--pcolor)]">
+    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-6">
 
-                    Project : ME
+      <div className="max-w-4xl text-center">
 
-                </h1>
+        <p className="uppercase tracking-[0.4em] text-[var(--pcolor)] font-bold">
 
-                <p className="mt-5 text-xl">
+          PROJECT : ME
 
-                    Become 1% Better Every Day.
+        </p>
 
-                </p>
+        <h1 className="mt-6 text-6xl md:text-8xl font-black">
 
-                <p className="mt-6 text-[var(--muted)] leading-8">
+          Become
 
-                    Track your habits.
+          <br />
 
-                    <br/>
+          The Main Character
 
-                    Measure your progress.
+        </h1>
 
-                    <br/>
+        <p className="mt-8 text-xl text-[var(--muted)] leading-9">
 
-                    Build consistency.
+          Your life becomes an RPG.
 
-                </p>
+          <br />
 
-                <div className="mt-10">
+          Complete quests.
 
-                    <Link to="/register">
+          Gain XP.
 
-                        <Button>
+          Level up.
 
-                            Get Started
+          Build your character.
 
-                        </Button>
+        </p>
 
-                    </Link>
+        <div className="mt-12 flex flex-col md:flex-row justify-center gap-6">
 
-                </div>
+          <Link to="/register">
 
-                <div className="mt-6">
+            <Button className="px-10">
 
-                    <Link
+              Start Journey
 
-                        to="/login"
+            </Button>
 
-                        className="text-[var(--pcolor)] font-semibold"
+          </Link>
 
-                    >
+          <Link to="/login">
 
-                        Already have an account?
+            <Button className="px-10 bg-transparent border border-[var(--pcolor)] text-[var(--pcolor)] hover:bg-[var(--pcolor)] hover:text-white">
 
-                    </Link>
+              Continue Journey
 
-                </div>
+            </Button>
 
-            </Card>
+          </Link>
 
         </div>
-    );
+
+        <div className="mt-20 grid md:grid-cols-4 gap-6">
+
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+            <h2 className="text-4xl">⚔️</h2>
+
+            <p className="mt-4 font-bold">
+
+              Daily Quests
+
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+            <h2 className="text-4xl">⭐</h2>
+
+            <p className="mt-4 font-bold">
+
+              Gain XP
+
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+            <h2 className="text-4xl">📈</h2>
+
+            <p className="mt-4 font-bold">
+
+              Level Up
+
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+            <h2 className="text-4xl">🏆</h2>
+
+            <p className="mt-4 font-bold">
+
+              Build Character
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
 }
 
 export default Landing;

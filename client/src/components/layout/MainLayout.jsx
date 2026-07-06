@@ -13,7 +13,7 @@ function MainLayout({ children }) {
         </div>
 
         <main className="flex-1">
-          <div className="mx-auto w-full max-w-7xl px-8 py-8 pb-24">
+          <div className="mx-auto w-full max-w-7xl px-4 py-4 pb-24">
             {children}
           </div>
         </main>

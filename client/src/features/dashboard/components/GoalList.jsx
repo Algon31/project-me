@@ -1,52 +1,111 @@
 import Card from "../../../shared/components/Card";
-import { Check, Circle } from "lucide-react";
 
-function GoalList({ metrics = [] }) {
+function GoalList({ goals }) {
 
     return (
 
         <Card>
 
-            <h2 className="mb-6 text-2xl font-semibold">
+            <h2 className="mb-8 text-3xl font-bold">
 
-                Today's Goals
+                Main Quests
 
             </h2>
 
-            <div className="space-y-4">
+            {
+                goals.length === 0 && (
 
-                {metrics.map(metric => (
+                    <p className="text-[var(--muted)]">
 
-                    <div
-                        key={metric.metric._id}
-                        className="flex items-center gap-4"
-                    >
+                        No active goals.
 
-                        {metric.value ? (
+                    </p>
 
-                            <Check
-                                className="text-green-600"
-                                size={20}
-                            />
+                )
+            }
 
-                        ) : (
+            <div className="space-y-6">
 
-                            <Circle
-                                className="text-gray-400"
-                                size={20}
-                            />
+                {
 
-                        )}
+                    goals.map((goal) => {
 
-                        <span>
+                        const progress = Math.min(
+                            (goal.progress / goal.target) * 100,
+                            100
+                        );
 
-                            {metric.metric.name}
+                        return (
 
-                        </span>
+                            <div
+                                key={goal._id}
+                                className="rounded-2xl bg-[var(--bg)] p-5"
+                            >
 
-                    </div>
+                                <div className="flex justify-between">
 
-                ))}
+                                    <div>
+
+                                        <h3 className="text-lg font-bold">
+
+                                            {goal.title}
+
+                                        </h3>
+
+                                        <p className="text-sm text-[var(--muted)]">
+
+                                            {goal.category}
+
+                                        </p>
+
+                                    </div>
+
+                                    <div className="text-right">
+
+                                        <p className="font-bold">
+
+                                            +{goal.xpReward} XP
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div className="mt-5 h-3 rounded-full bg-[var(--border)] overflow-hidden">
+
+                                    <div
+                                        className="h-full bg-[var(--pcolor)]"
+                                        style={{
+                                            width: `${progress}%`,
+                                        }}
+                                    />
+
+                                </div>
+
+                                <div className="mt-3 flex justify-between text-sm">
+
+                                    <span>
+
+                                        {goal.progress} / {goal.target}
+
+                                    </span>
+
+                                    <span>
+
+                                        {Math.round(progress)}%
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        );
+
+                    })
+
+                }
 
             </div>
 
