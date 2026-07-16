@@ -12,7 +12,7 @@ const dailyEntrySchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-
+        
         quests: [
             {
                 quest: {
@@ -35,6 +35,7 @@ const dailyEntrySchema = new mongoose.Schema(
                     type: Boolean,
                     default: false,
                 },
+                
             },
         ],
 

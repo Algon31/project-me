@@ -52,7 +52,7 @@ function Goals(){
 
                 title="Main Quests"
 
-                subtitle="Your long-term missions."
+                subtitle="🚧🚧🚧🚧 This page is still in consrtuction 🚧🚧🚧🚧"
 
             />
 

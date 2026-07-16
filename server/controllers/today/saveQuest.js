@@ -1,6 +1,8 @@
 const Quest = require("../../models/Quest");
 const DailyEntry = require("../../models/DailyEntry");
 const Character = require("../../models/Character");
+const { updateStreak } = require("../../services/streakEngine");
+const { applyPenalty } = require("../../services/dailyPenaltyEngine");
 
 const { updateCharacter } = require("../../services/characterEngine");
 
@@ -27,88 +29,94 @@ async function saveQuest(req, res) {
             });
 
         }
-
         const value = req.body.value;
 
-        const xpEarned = await updateCharacter(
-
-            req.user.id,
-
-            quest,
-
-            value
-
-        );
-
         const today = new Date()
-
             .toISOString()
-
             .split("T")[0];
 
         let entry = await DailyEntry.findOne({
-
             user: req.user.id,
-
             date: today,
-
         });
 
         if (!entry) {
-
             entry = await DailyEntry.create({
-
                 user: req.user.id,
-
                 date: today,
-
                 quests: [],
-
             });
-
         }
 
         const existing = entry.quests.find(
-
             q => String(q.quest) === String(quest._id)
+        );
 
+        if (existing && existing.completed) {
+
+            existing.value = value;
+
+            await entry.save();
+
+            const character = await Character.findOne({
+                user: req.user.id,
+            });
+
+            return res.json({
+                success: true,
+                questId: quest._id,
+                level: character.level,
+                rank: character.rank,
+                currentXP: character.xp,
+                completed: true,
+                alreadyCompleted: true,
+            });
+        }
+
+        // First completion today
+        const xpEarned = await updateCharacter(
+            req.user.id,
+            quest,
+            value
         );
 
         if (existing) {
 
             existing.value = value;
             existing.xpEarned = xpEarned;
-            existing.completed = true;
-
+            existing.completed = xpEarned > 0;
         } else {
 
             entry.quests.push({
-
                 quest: quest._id,
-
                 value,
-
                 xpEarned,
-
-                completed: true,
-
+                completed: xpEarned > 0,
+                questType: quest.questType,
             });
 
         }
 
         entry.totalXP = entry.quests.reduce(
-
             (sum, q) => sum + q.xpEarned,
-
             0
-
         );
 
         entry.completedQuests = entry.quests.filter(
-
             q => q.completed
-
         ).length;
+        entry.totalQuests = await Quest.countDocuments({
+            user: req.user.id,
+            active: true,
+        });
+
+        entry.completionPercentage =
+            entry.totalQuests === 0
+                ? 0
+                : Math.round(
+                    (entry.completedQuests * 100) /
+                    entry.totalQuests
+                );
 
         await entry.save();
 
@@ -117,6 +125,21 @@ async function saveQuest(req, res) {
             user: req.user.id,
 
         });
+
+        await updateStreak(
+            character,
+            req.user.id,
+        );
+
+        await applyPenalty(
+
+            character,
+
+            entry.quests,
+
+        );
+
+        await character.save();
 
         res.json({
 
@@ -132,7 +155,7 @@ async function saveQuest(req, res) {
 
             currentXP: character.xp,
 
-            completed: true,
+            completed: xpEarned > 0,
 
         });
 

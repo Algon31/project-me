@@ -36,7 +36,7 @@ function CharacterHeader({
 
                     <p className="text-sm opacity-80">
 
-                        Welcome back,
+                        Ready For Today?
 
                     </p>
 
@@ -48,7 +48,7 @@ function CharacterHeader({
 
                     <p className="mt-4 opacity-90">
 
-                        {user?.selectedClass}
+                        Selected Class : {user?.selectedClass}
 
                     </p>
 

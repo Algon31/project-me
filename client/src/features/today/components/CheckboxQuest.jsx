@@ -76,16 +76,6 @@ function CheckboxQuest({
 
                     </span>
 
-                    <Button className="w-full sm:w-auto"
-
-                        onClick={()=>setEditing(true)}
-
-                    >
-
-                        Edit
-
-                    </Button>
-
                 </div>
 
             }

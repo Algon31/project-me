@@ -16,7 +16,7 @@ const {
 
 
 const saveToday = async (req, res) => {
-
+console.log("saveToday called");
     try {
 
         const today =
@@ -80,6 +80,7 @@ const saveToday = async (req, res) => {
                 xpEarned,
 
                 completed: xpEarned > 0,
+                questType: quest.questType,
 
             });
 
@@ -99,6 +100,7 @@ const saveToday = async (req, res) => {
             savedQuests,
 
         );
+        console.log("Current Streak:", character.currentStreak);
 
         await applyPenalty(
 

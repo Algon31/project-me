@@ -10,13 +10,13 @@ function xpRequired(level){
 }
 
 function calculateRank(level){
-
-    if(level>=90) return "SSS";
-    if(level>=70) return "SS";
-    if(level>=50) return "S";
-    if(level>=40) return "A";
-    if(level>=30) return "B";
-    if(level>=20) return "C";
+    if(level>=5000) return "GOD"
+    if(level>=1000) return "SSS";
+    if(level>=450) return "SS";
+    if(level>=100) return "S";
+    if(level>=70) return "A";
+    if(level>=50) return "B";
+    if(level>=30) return "C";
     if(level>=10) return "D";
 
     return "E";

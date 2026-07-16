@@ -9,6 +9,8 @@ function GoalList({ goals }) {
             <h2 className="mb-8 text-3xl font-bold">
 
                 Main Quests
+                🚧🚧🚧🚧
+                Yet to completed
 
             </h2>
 

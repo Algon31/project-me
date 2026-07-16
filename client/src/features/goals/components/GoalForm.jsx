@@ -68,7 +68,7 @@ function GoalForm({
                 }
             />
 
-            <Button>
+            <Button type="submit">
 
                 Create Goal
 

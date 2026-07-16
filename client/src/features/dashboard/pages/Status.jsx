@@ -98,8 +98,6 @@ function Status() {
             }}
           />
         </div>
-
-        <ActivityFeed notifications={notifications} />
         <GoalList goals={goals} />
         {Object.keys(character.skills).length > 0 && (
           <AttributeSection title="Skills" attributes={character.skills} />

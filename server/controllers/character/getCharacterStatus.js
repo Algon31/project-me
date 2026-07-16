@@ -32,8 +32,8 @@ const getCharacterStatus = async (req, res) => {
                 date: today,
 
             });
-        user: character.user,
             res.json({
+                user: character.user,
 
                 level: character.level,
 

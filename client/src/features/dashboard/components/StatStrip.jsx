@@ -45,7 +45,9 @@ function StatStrip({ character }) {
     hover:shadow-lg
 "
         title="Current Streak"
-        value={`${character.currentStreak} Days`}
+        value={`${character.currentStreak} ${
+          character.longestStreak === 1 ? "Day" : "Days"
+        }`}
         subtitle="Keep it Alive"
         icon={<Flame size={22} />}
       />
@@ -64,7 +66,9 @@ function StatStrip({ character }) {
     hover:shadow-lg
 "
         title="Longest Streak"
-        value={`${character.longestStreak} Days`}
+        value={`${character.longestStreak} ${
+          character.longestStreak === 1 ? "Day" : "Days"
+        }`}
         subtitle="Personal Best"
         icon={<Star size={22} />}
       />
