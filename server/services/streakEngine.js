@@ -29,21 +29,47 @@ async function updateStreak(character, userId) {
 
     if (completed) {
 
-        if (character.lastStreakDate !== today) {
+        const todayDate = new Date(today);
 
-            character.currentStreak++;
+        if (!character.lastStreakDate) {
 
-            character.longestStreak = Math.max(
-                character.currentStreak,
-                character.longestStreak
+            character.currentStreak = 1;
+
+        } else {
+
+            const lastDate = new Date(character.lastStreakDate);
+
+            const diffDays = Math.floor(
+                (todayDate - lastDate) / (1000 * 60 * 60 * 24)
             );
 
-            character.lastStreakDate = today;
+            if (diffDays === 1) {
+
+                // Consecutive day
+                character.currentStreak++;
+
+            } else if (diffDays > 1) {
+
+                // Missed one or more days
+                character.currentStreak = 1;
+
+            } else {
+
+                // Already counted today
+                return;
+            }
         }
+
+        character.longestStreak = Math.max(
+            character.currentStreak,
+            character.longestStreak
+        );
+
+        character.lastStreakDate = today;
 
     } else {
 
-        character.currentStreak = 0;
+            return;
 
     }
 
