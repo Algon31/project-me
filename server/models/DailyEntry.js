@@ -21,6 +21,16 @@ const dailyEntrySchema = new mongoose.Schema(
                     required: true,
                 },
 
+                name: {
+                    type: String,
+                    default: "",
+                },
+
+                questType: {
+                    type: String,
+                    default: "Core",
+                },
+
                 value: {
                     type: mongoose.Schema.Types.Mixed,
                     default: null,
@@ -35,7 +45,12 @@ const dailyEntrySchema = new mongoose.Schema(
                     type: Boolean,
                     default: false,
                 },
-                
+
+                completedSubQuests: [
+                    {
+                        type: String,
+                    },
+                ],
             },
         ],
 

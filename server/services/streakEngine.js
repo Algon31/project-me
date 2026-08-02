@@ -1,11 +1,21 @@
 const Quest = require("../models/Quest");
 const DailyEntry = require("../models/DailyEntry");
+const { getFormattedDate } = require("../utils/dateUtils");
 
-async function updateStreak(character, userId) {
+async function updateStreak(character, userId, timezoneOffset = null) {
+    const today = getFormattedDate(new Date(), timezoneOffset);
 
-    const today = new Date().toISOString().split("T")[0];
+    // Get total active Core Quests for this user
+    const totalCoreCount = await Quest.countDocuments({
+        user: userId,
+        questType: "Core",
+        active: true,
+    });
 
-    // Get today's entry with quest references populated
+    if (totalCoreCount === 0) {
+        return;
+    }
+
     const entry = await DailyEntry.findOne({
         user: userId,
         date: today,
@@ -15,46 +25,30 @@ async function updateStreak(character, userId) {
         return;
     }
 
-    const coreQuests = entry.quests.filter(
-        (q) => q.quest?.questType === "Core"
-    );
+    const completedCoreCount = entry.quests.filter((q) => {
+        const type = q.quest?.questType || q.questType;
+        return q.completed && type === "Core";
+    }).length;
 
-    if (coreQuests.length === 0) {
-        return;
-    }
-
-    const completed = coreQuests.every(
-        (q) => q.completed
-    );
-
-    if (completed) {
-
-        const todayDate = new Date(today);
+    // Streak increments ONLY if ALL active core quests are completed
+    if (completedCoreCount >= totalCoreCount) {
+        const todayDate = new Date(`${today}T00:00:00.000Z`);
 
         if (!character.lastStreakDate) {
-
             character.currentStreak = 1;
-
         } else {
-
-            const lastDate = new Date(character.lastStreakDate);
-
-            const diffDays = Math.floor(
-                (todayDate - lastDate) / (1000 * 60 * 60 * 24)
+            const lastDate = new Date(`${character.lastStreakDate}T00:00:00.000Z`);
+            const diffDays = Math.round(
+                (todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24)
             );
 
             if (diffDays === 1) {
-
                 // Consecutive day
                 character.currentStreak++;
-
             } else if (diffDays > 1) {
-
                 // Missed one or more days
                 character.currentStreak = 1;
-
             } else {
-
                 // Already counted today
                 return;
             }
@@ -66,13 +60,7 @@ async function updateStreak(character, userId) {
         );
 
         character.lastStreakDate = today;
-
-    } else {
-
-            return;
-
     }
-
 }
 
 module.exports = {

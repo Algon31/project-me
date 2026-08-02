@@ -9,7 +9,7 @@ const questRoutes = require("./routes/questRoutes");
 const todayRoutes = require("./routes/todayRoutes");
 const characterRoutes = require("./routes/characterRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
-const achivementsRoutes = require("./routes/achievementRoutes");
+const achievementsRoutes = require("./routes/achievementRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const goalsRoutes = require("./routes/goalRoutes")
 
@@ -45,7 +45,7 @@ app.use("/api/today", todayRoutes);
 app.use("/api/character", characterRoutes);
 
 app.use("/api/analytics", analyticsRoutes);
-app.use("/api/achievements", achivementsRoutes);
+app.use("/api/achievements", achievementsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/goals", goalsRoutes);
 

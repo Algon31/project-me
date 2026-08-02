@@ -1,39 +1,18 @@
 import Button from "./Button";
 
-function EmptyState({
-    title,
-    description,
-    buttonText,
-    onClick,
-}) {
-    return (
-        <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white p-12 text-center">
+function EmptyState({ title, description, buttonText, onClick }) {
+  return (
+    <div className="rounded-3xl border border-dashed border-slate-800 bg-slate-900/60 p-12 text-center backdrop-blur-xl">
+      <h2 className="text-2xl font-black text-white">{title}</h2>
+      <p className="mt-2 text-sm text-slate-400 max-w-md mx-auto">{description}</p>
 
-            <h2 className="text-2xl font-semibold">
-
-                {title}
-
-            </h2>
-
-            <p className="mt-3 text-[var(--muted)]">
-
-                {description}
-
-            </p>
-
-            {buttonText && (
-
-                <Button
-                    className="mt-8 max-w-xs mx-auto"
-                    onClick={onClick}
-                >
-                    {buttonText}
-                </Button>
-
-            )}
-
-        </div>
-    );
+      {buttonText && (
+        <Button className="mt-6 max-w-xs mx-auto" onClick={onClick}>
+          {buttonText}
+        </Button>
+      )}
+    </div>
+  );
 }
 
 export default EmptyState;

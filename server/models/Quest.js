@@ -103,6 +103,13 @@ const questSchema = new mongoose.Schema(
         },
     ],
 
+    subQuests:[
+        {
+            type:String,
+            trim:true,
+        },
+    ],
+
     difficulty:{
         type:String,
         enum:[

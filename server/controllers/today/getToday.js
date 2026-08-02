@@ -1,49 +1,30 @@
 const DailyEntry = require("../../models/DailyEntry");
+const { getFormattedDate } = require("../../utils/dateUtils");
 
 async function getToday(req, res) {
-
     try {
-
-        const today = new Date()
-
-            .toISOString()
-
-            .split("T")[0];
+        const timezoneOffset = req.query.timezoneOffset ?? req.headers["x-timezone-offset"];
+        const today = getFormattedDate(new Date(), timezoneOffset ? Number(timezoneOffset) : null);
 
         const entry = await DailyEntry.findOne({
-
             user: req.user.id,
-
             date: today,
-
         }).populate("quests.quest");
 
         if (!entry) {
-
             return res.json({
-
                 quests: [],
-
             });
-
         }
 
         res.json(entry);
-
     }
-
     catch (error) {
-
         console.error(error);
-
         res.status(500).json({
-
             message: "Server Error",
-
         });
-
     }
-
 }
 
 module.exports = getToday;

@@ -1,69 +1,31 @@
-const {
+const { decayAttribute } = require("./attributeEngine");
 
-    decayAttribute,
+async function applyPenalty(character, quests) {
+    if (!quests || !Array.isArray(quests)) return;
 
-} = require("./attributeEngine");
+    for (const q of quests) {
+        if (!q.completed) {
+            const questName = q.name || q.quest?.name || "";
+            const affectsAttributes = q.quest?.affectsAttributes || [];
 
-async function applyPenalty(
+            // Check hardcoded defaults or quest-defined affected attributes
+            if (questName === "Gym" || affectsAttributes.includes("Strength")) {
+                await decayAttribute(character, "Strength");
+            }
+            if (questName === "Reading" || affectsAttributes.includes("Knowledge")) {
+                await decayAttribute(character, "Knowledge");
+            }
 
-    character,
-
-    quests
-
-){
-
-    const gym = quests.find(
-
-        q => q.name === "Gym"
-
-    );
-
-    if (
-
-        gym &&
-
-        !gym.completed
-
-    ){
-
-        await decayAttribute(
-
-            character,
-
-            "Strength"
-
-        );
-
+            // Decay any other custom attributes specified by the quest schema
+            for (const attr of affectsAttributes) {
+                if (attr !== "Strength" && attr !== "Knowledge") {
+                    await decayAttribute(character, attr);
+                }
+            }
+        }
     }
-
-    const read = quests.find(
-
-        q=>q.name==="Reading"
-
-    );
-
-    if(
-
-        read &&
-
-        !read.completed
-
-    ){
-
-        await decayAttribute(
-
-            character,
-
-            "Knowledge"
-
-        );
-
-    }
-
 }
 
-module.exports={
-
+module.exports = {
     applyPenalty,
-
 };

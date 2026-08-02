@@ -1,0 +1,16 @@
+{
+  "name": "project-me",
+  "version": "2.0.0",
+  "description": "Project : ME - Gamified Life Productivity System",
+  "scripts": {
+    "test": "node scripts/test-all.js",
+    "test:all": "node scripts/test-all.js",
+    "test:server": "npm test --prefix server",
+    "test:client": "npm run build --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client"
+  },
+  "keywords": ["gamification", "productivity", "solo-leveling"],
+  "author": "",
+  "license": "ISC"
+}

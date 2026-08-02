@@ -1,59 +1,90 @@
 const mongoose = require("mongoose");
 
 const goalSchema = new mongoose.Schema(
-{
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true,
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
 
-    title:{
-        type:String,
-        required:true,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
 
-    description:{
-        type:String,
-        default:"",
+    description: {
+      type: String,
+      default: "",
+      trim: true,
     },
 
-    category:{
-        type:String,
-        enum:["Physical","Mind","Career","Life"],
-        default:"Mind",
+    category: {
+      type: String,
+      enum: ["Physical", "Mind", "Career", "Life"],
+      default: "Mind",
     },
 
-    progress:{
-        type:Number,
-        default:0,
+    milestones: [
+      {
+        title: { type: String, required: true, trim: true },
+        completed: { type: Boolean, default: false },
+      },
+    ],
+
+    progress: {
+      type: Number,
+      default: 0,
     },
 
-    target:{
-        type:Number,
-        default:100,
+    target: {
+      type: Number,
+      default: 100,
     },
 
-    xpReward:{
-        type:Number,
-        default:1000,
+    xpReward: {
+      type: Number,
+      default: 500,
     },
 
-    completed:{
-        type:Boolean,
-        default:false,
+    goldReward: {
+      type: Number,
+      default: 50,
     },
 
-    deadline:{
-        type:Date,
-    }
+    affectsAttributes: [
+      {
+        type: String,
+        enum: [
+          "Strength",
+          "Endurance",
+          "Health",
+          "Knowledge",
+          "Focus",
+          "Creativity",
+          "Discipline",
+          "Consistency",
+        ],
+      },
+    ],
 
-},
-{
-    timestamps:true,
-});
+    completed: {
+      type: Boolean,
+      default: false,
+    },
 
-module.exports = mongoose.model(
-    "LongTermGoal",
-    goalSchema
+    completedAt: {
+      type: Date,
+    },
+
+    deadline: {
+      type: Date,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
+
+module.exports = mongoose.model("LongTermGoal", goalSchema);

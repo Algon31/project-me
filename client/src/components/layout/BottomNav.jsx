@@ -1,91 +1,40 @@
 import { NavLink } from "react-router-dom";
 import {
-  Swords,
-  Trophy,
+  House,
+  LayoutDashboard,
   ChartColumn,
-  Medal,
-  Bell,
   Target,
-  Hammer,
 } from "lucide-react";
 
 function BottomNav() {
   const linkClass = ({ isActive }) =>
-    `
-      flex
-      flex-col
-      items-center
-      justify-center
-      flex-1
-      py-3
-      transition-colors
-      ${
-        isActive
-          ? "text-[var(--pcolor)]"
-          : "text-[var(--muted)]"
-      }
-    `;
+    `flex flex-col items-center justify-center gap-1 py-2 px-4 text-[11px] font-medium transition-all ${
+      isActive
+        ? "text-blue-400 font-bold scale-105"
+        : "text-slate-400 hover:text-slate-200"
+    }`;
 
   return (
-    <nav
-      className="
-        fixed
-        bottom-0
-        left-0
-        right-0
-        z-50
-        border-t
-        border-[var(--border)]
-        bg-white
-        md:hidden
-      "
-    >
-      <div
-        className="
-          grid
-          grid-cols-4
-        "
-      >
-        <NavLink
-          to="/today"
-          className={linkClass}
-        >
-          <Swords size={20} />
-          <span className="mt-1 text-[10px]">
-            Quests
-          </span>
-        </NavLink>
+    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-slate-800/80 bg-[#090e1a]/95 px-2 backdrop-blur-xl md:hidden">
+      <NavLink to="/status" className={linkClass}>
+        <LayoutDashboard size={20} />
+        Status
+      </NavLink>
 
-        <NavLink
-          to="/status"
-          className={linkClass}
-        >
-          <Trophy size={20} />
-          <span className="mt-1 text-[10px]">
-            Status
-          </span>
-        </NavLink>
+      <NavLink to="/today" className={linkClass}>
+        <House size={20} />
+        Quests
+      </NavLink>
 
-        <NavLink
-          to="/analytics"
-          className={linkClass}
-        >
-          <ChartColumn size={20} />
-          <span className="mt-1 text-[10px]">
-            Progress
-          </span>
-        </NavLink>
+      <NavLink to="/goals" className={linkClass}>
+        <Target size={20} />
+        Main
+      </NavLink>
 
-        <NavLink
-          to="/settings"
-          className={linkClass}
-        >
-          <Hammer size={20} />
-          <span className="mt-1 text-[10px]">
-            Forge
-          </span>
-        </NavLink>
-      </div>
+      <NavLink to="/analytics" className={linkClass}>
+        <ChartColumn size={20} />
+        Stats
+      </NavLink>
     </nav>
   );
 }
